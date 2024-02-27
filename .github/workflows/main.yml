@@ -24,10 +24,14 @@ jobs:
 
       - name: Run tests
         run: docker compose build
+        env:
+          DATABASE_URL: ${{ variables.DATABASE_URL }}
       - name: Docker Compose remove old containers and volumes
         run: docker compose down -v --remove-orphans
       - name: Docker Compose up
         run: docker compose up -d
+        env:
+          DATABASE_URL: ${{ variables.DATABASE_URL }}
       - name: Current working dir
         run: pwd
       - name: Container details
