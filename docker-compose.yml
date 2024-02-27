@@ -12,7 +12,8 @@ services:
       - ./:/code:ro
       - ./.pytest_cache:/code/.pytest_cache
     environment:
-      - DATABASE_URL=postgresql+asyncpg://postgres:Bright#1270@db:5433/exchange_rate
+      DATABASE_URL: ${DATABASE_URL}
+      CB_API_KEY: ${CB_API_KEY}
     restart: always
     command: bash -c 'alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --reload'
     ports:
@@ -25,9 +26,9 @@ services:
     ports:
       - 5433:5433
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=Bright#1270
-      - POSTGRES_DB=exchange_rate
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     command: -p 5433
 
 volumes:

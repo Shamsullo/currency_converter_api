@@ -1,7 +1,6 @@
 import pytest
 import httpx
 
-# Assuming the API is running locally for testing
 BASE_URL = "http://localhost:8000"
 
 
@@ -13,7 +12,8 @@ async def test_update_currency_exchange_rate_success():
         assert "inserted_rows" in response.json()
         assert "updated_rows" in response.json()
 
-# Add more tests here for failure scenarios, e.g., when the CurrencyBeacon service is unavailable
+# Add more tests here for failure scenarios,
+# e.g., when the CurrencyBeacon service is unavailable
 
 
 @pytest.mark.asyncio
@@ -24,16 +24,18 @@ async def test_get_last_rate_update_datetime_success():
         data = response.json()
         assert "source" in data
         assert "updated_at" in data
-        # You can add more assertions here to validate the response format
 
-# Consider adding tests to validate the response data thoroughly, including date format
+# Consider adding tests to validate the response data thoroughly,
+# including date format
 
 
 @pytest.mark.asyncio
 async def test_convert_currency_success():
     async with httpx.AsyncClient() as client:
         payload = {"source": "USD", "target": "EUR", "amount": 100}
-        response = await client.post(f"{BASE_URL}/v1/rates/convert", json=payload)
+        response = await client.post(
+            f"{BASE_URL}/v1/rates/convert", json=payload
+        )
         assert response.status_code == 200
         data = response.json()
         assert "source" in data and data["source"] == "USD"
@@ -47,8 +49,10 @@ async def test_convert_currency_success():
 async def test_convert_currency_validation_error():
     async with httpx.AsyncClient() as client:
         payload = {"source": "USD", "amount": 100}  # Missing 'target'
-        response = await client.post(f"{BASE_URL}/v1/rates/convert", json=payload)
+        response = await client.post(
+            f"{BASE_URL}/v1/rates/convert", json=payload
+        )
         assert response.status_code == 422
-        # Here, assert the structure of the validation error
 
-# Add more tests for other scenarios, like unsupported currency codes or invalid amounts
+# Add more tests for other scenarios,
+# like unsupported currency codes or invalid amounts
