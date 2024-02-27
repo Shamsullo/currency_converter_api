@@ -1,0 +1,40 @@
+name: API CI-test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+        run:
+            working-directory: app
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Run tests
+        run: docker compose build
+      - name: Docker Compose remove old containers and volumes
+        run: docker compose down -v --remove-orphans
+      - name: Docker Compose up
+        run: docker compose up -d
+      - name: Current working dir
+        run: pwd
+      - name: Container details
+        run: |
+          docker inspect api-service
+          docker logs -f api-service
+      - name: Docker Compose run tests
+        run: docker compose exec -T api-service pytest -v
+      - name: Docker Compose cleanup
+        run: docker compose down -v --remove-orphans
