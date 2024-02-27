@@ -25,9 +25,6 @@ jobs:
         run: docker-compose up -d --build
       - name: Current working dir
         run: pwd
-      - name: Find flake8
-        run: |
-          which flake8
       - name: Container details
         run: |
           docker inspect api-service
