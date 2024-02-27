@@ -10,9 +10,6 @@ jobs:
 
   test:
     runs-on: ubuntu-latest
-    defaults:
-        run:
-            working-directory: app
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,6 +23,10 @@ jobs:
         run: docker compose build
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          CB_API_KEY: ${{ secrets.CB_API_KEY }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
       - name: Docker Compose remove old containers and volumes
         run: docker compose down -v --remove-orphans
       - name: Print environment variable
@@ -34,6 +35,10 @@ jobs:
         run: docker compose up -d
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          CB_API_KEY: ${{ secrets.CB_API_KEY }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
       - name: Current working dir
         run: pwd
       - name: Container details
