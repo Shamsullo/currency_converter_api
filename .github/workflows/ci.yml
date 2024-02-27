@@ -25,6 +25,12 @@ jobs:
         run: docker-compose up -d --build
       - name: Current working dir
         run: pwd
+      - name: Find flake8
+        run: |
+          find / -name flake8 -type f
+          which flake8
+          env
+
       # - name: Lint with flake8
       #   run: |
       #     # stop the build if there are Python syntax errors or undefined names
