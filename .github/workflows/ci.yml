@@ -27,16 +27,18 @@ jobs:
         run: pwd
       - name: Find flake8
         run: |
-          find / -name flake8 -type f
           which flake8
-          env
-
-      # - name: Lint with flake8
-      #   run: |
-      #     # stop the build if there are Python syntax errors or undefined names
-      #     docker-compose exec -T api-service flake8 /home/runner/work/currency_converter_api/currency_converter_api/api --count --select=E9,F63,F7,F82 --show-source --statistics
-      #     # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
-      #     docker-compose exec -T api-service flake8 /home/runner/work/currency_converter_api/currency_converter_api/api --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      - name: Container details
+        run: |
+          docker inspect api-service
+          docker logs -f api-service
+          docker inspect db
+      - name: Lint with flake8
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          docker-compose exec -T api-service /usr/share/bash-completion/completions/flake8 /home/runner/work/currency_converter_api/currency_converter_api/api --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          docker-compose exec -T api-service /usr/share/bash-completion/completions/flake8 /home/runner/work/currency_converter_api/currency_converter_api/api --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       # - name: Docker Compose run tests
       #   run: docker-compose exec api-service pytest -v
       - name: Generate coverage report
