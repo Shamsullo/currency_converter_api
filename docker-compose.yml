@@ -1,7 +1,8 @@
-version: '1.0.0'
+version: '3.8'
 
 services:
   api-service:
+    container_name: currency-conveter-api
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,27 +10,25 @@ services:
       - db
     volumes:
       - ./:/code:ro
+      - ./.pytest_cache:/code/.pytest_cache
     environment:
-      - DATABASE_URL=postgresql://postgres:Bright#1270@localhost:5433/dockert
+      - DATABASE_URL=postgresql+asyncpg://postgres:Bright#1270@db:5433/exchange_rate
     restart: always
+    command: bash -c 'alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --reload'
     ports:
-      - "8000:80"
-    networks:
-      - currency-converter
+      - 8080:8000
 
   db:
     image: postgres:15-alpine
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    expose:
-      - 5433
+      - psql_data:/var/lib/postgresql/data/
+    ports:
+      - 5433:5433
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=Bright#1270
-      - POSTGRES_DB=dockert
+      - POSTGRES_DB=exchange_rate
+    command: -p 5433
 
 volumes:
-  postgres_data:
-
-networks:
-  currency-converter:
+  psql_data:
