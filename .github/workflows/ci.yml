@@ -24,7 +24,7 @@ jobs:
       - name: Docker Compose up
         run: docker-compose up -d --build
       - name: Lint with flake8
-        run: docker-compose exec api-service flake8 . --count --show-source --statistics
+        run: docker-compose exec --tty api-service flake8 . --count --show-source --statistics
       - name: Docker Compose run tests
         run: docker-compose exec api-service pytest -v
       - name: Generate coverage report
