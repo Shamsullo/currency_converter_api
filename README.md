@@ -1,5 +1,6 @@
 # Test task: Development of an API for currency conversion
 [![codecov](https://codecov.io/gh/Shamsullo/currency_converter_api/main/graph/badge.svg)](https://codecov.io/gh/Shamsullo/currency_converter_api)
+[![API CI-test](https://github.com/Shamsullo/currency_converter_api/actions/workflows/ci.yml/badge.svg)](https://github.com/Shamsullo/currency_converter_api/actions/workflows/ci.yml)
 
 The documentation is structured to guide users through the installation process, understand the API endpoints, and perform currency conversions.
 
@@ -18,8 +19,8 @@ This project provides an API for currency conversion, leveraging FastAPI for the
  ```bash
   docker-compose -f docker-compose.yml up --build -d
  ```
-
  the project will be available at http://localhost:8080
+ NOTES: all the migrations will be applied automatically on the startup. But, to have the currency table filled one needs to call /v1/rates/update
 
 **Documentation**
 
