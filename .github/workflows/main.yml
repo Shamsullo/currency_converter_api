@@ -44,7 +44,7 @@ jobs:
       - name: Container details
         run: |
           docker inspect currency-conveter-api
-          docker logs -f currency-conveter-api
+          docker logs currency-conveter-api
       - name: Docker Compose run tests
         run: docker compose exec -T currency-conveter-api pytest -v
       - name: Docker Compose cleanup
