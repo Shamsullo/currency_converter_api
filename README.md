@@ -29,17 +29,23 @@ More detailed API documentation can be found here, of course after starting the 
 
  - http://localhost:8080/api/re-docs (Redocs)
 
-For testing purposes, I have deployed the service to temporary server and it can be found here: http://3.77.154.109:8080/api/docs#/
+For testing purposes, I have deployed the service to the temporary server and it can be found here: http://3.77.154.109:8080/api/docs#/
 
 **Continuous Integration (CI)**
 
 The project includes a CI script setup to:
 
- - Check the syntax using **flake8**.
+ - Check the syntax using **flake8**
 
- - Run automated tests.
+ - Run automated tests
 
- - Generate a code coverage report.
+ - Generate a code coverage report
+
+ **Tests**
+The API is covered with some basic test cases as an example using pytest. This command can run the test:
+```bash
+  docker-compose exec currency-converter-api pytest -v
+```
 
 ***Link to test technical requirements***
  - https://docs.google.com/document/d/1lmiYMkJ2IIPz-V9Koc9pYQ-56x9OMU5Xwc32RH9wGn0/edit (Test task: Development of an API for currency conversion
