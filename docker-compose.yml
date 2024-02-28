@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   api-service:
-    container_name: currency-conveter-api
+    container_name: currency-converter-api
     build:
       context: .
       dockerfile: Dockerfile
@@ -15,7 +15,7 @@ services:
       DATABASE_URL: ${DATABASE_URL}
       CB_API_KEY: ${CB_API_KEY}
     restart: always
-    command: bash -c 'alembic upgrade head && uvicorn app.main:app --host 0.0.0.0 --reload'
+    command: bash -c 'while !</dev/tcp/db/5433; do sleep 1; done; alembic upgrade head; uvicorn app.main:app --host 0.0.0.0'
     ports:
       - 8080:8000
 

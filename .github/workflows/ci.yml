@@ -1,0 +1,56 @@
+name: API CI-test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          CB_API_KEY: ${{ secrets.CB_API_KEY }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Docker Compose remove old containers and volumes
+        run: docker-compose down -v --remove-orphans
+      - name: Docker Compose Build and Up
+        run: docker-compose up -d --build
+      - name: Current working dir
+        run: pwd
+      - name: Container details
+        run: |
+          docker inspect currency-converter-api
+          docker logs currency-converter-api
+      - name: Lint with flake8
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          docker-compose exec -T currency-converter-api flake8 /api --count --select=E9,F63,F7,F82 --show-source --statistics
+          # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+          docker-compose exec -T currency-converter-api flake8 /api --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      # - name: Docker Compose run tests
+      #   run: docker-compose exec currency-converter-api pytest -v
+      - name: Generate coverage report
+        run: docker-compose exec -T currency-conveter-api pytest --cov=./ --cov-report=xml
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: true
+      - name: Docker Compose cleanup
+        run: docker-compose down -v --remove-orphans
