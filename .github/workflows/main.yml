@@ -49,7 +49,9 @@ jobs:
       - name: Current working dir
         run: pwd
       - name: Container details
-        run: docker logs currency-converter-api
+        run: |
+          docker logs currency-converter-api
+          docker inspect currency-converter-api
       - name: Docker Compose run tests
         run: docker compose exec -T currency-converter-api pytest -v
       - name: Docker Compose cleanup
