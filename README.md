@@ -8,6 +8,8 @@ The documentation is structured to guide users through the installation process,
 
 This project provides an API for currency conversion, leveraging FastAPI for the web framework, SQLAlchemy for the ORM, and Docker for containerization. Basically, It can fetch the current exchange rates, convert between different currencies, and view the last update of currency rates in the database.
 
+ <be> [CurrencyBeacon](https://currencybeacon.com/) is used as an external source of currency rate 
+
 **Installation and Running the Service**
 
 1\. Clone the project from the GitHub repository
