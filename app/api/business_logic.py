@@ -15,7 +15,7 @@ async def bulk_upsert_currency_rates(db: AsyncSession, data_list: List[dict]):
     )
     existing_records = result.scalars().all()
     existing_records_map = {record.ccy: record for record in existing_records}
-    
+
     to_be_inserted, to_be_updated = [], []
     for data in data_list:
         if data['ccy'] in existing_records_map:

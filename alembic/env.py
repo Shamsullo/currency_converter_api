@@ -6,8 +6,11 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
-import os, sys
+import os
+import sys
 from dotenv import load_dotenv
+from app.api import models
+
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv(os.path.join(BASE_DIR, ".env"))
@@ -28,9 +31,7 @@ if config.config_file_name is not None:
 
 # add your model's MetaData object here
 # for 'autogenerate' support
-# from myapp import mymodel
-# target_metadata = mymodel.Base.metadata
-from app.api import models
+
 # here target_metadata was equal to None
 target_metadata = models.Base.metadata
 
