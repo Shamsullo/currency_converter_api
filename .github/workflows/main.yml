@@ -1,4 +1,4 @@
-name: API CI-test
+name: API CI-test-main
 
 on:
   push:
