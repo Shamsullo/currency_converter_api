@@ -34,7 +34,7 @@ jobs:
       - name: Container details
         run: |
           docker inspect currency-conveter-api
-          docker logs -f currency-conveter-api
+          docker logs currency-conveter-api
       - name: Lint with flake8
         run: |
           # stop the build if there are Python syntax errors or undefined names
