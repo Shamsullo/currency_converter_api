@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   api-service:
-    container_name: currency-conveter-api
+    container_name: currency-converter-api
     build:
       context: .
       dockerfile: Dockerfile
